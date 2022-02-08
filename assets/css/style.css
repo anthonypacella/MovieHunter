@@ -1,0 +1,17 @@
+:root {
+  --color--primary: #1766e6;
+  --color--secondary: #d7d5ed;
+  --color--headings: #222;
+  --color--accents: #de2f34;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  border-radius: 15px;
+}
