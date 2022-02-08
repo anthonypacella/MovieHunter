@@ -42,8 +42,11 @@ function showSearches() {
     if (searches !== null) {
         $('#last-search-container').empty();
         for (var i=0; i<searches.length && i<6; i++) {
-            var lastSearch = $('<button></button>').text(searches[i].query).addClass('btn btn-dark');
-            $('#last-search-container').append(lastSearch);
+            var lastSearch = $('<button></button>').text(searches[i].query).addClass('btn btn-dark')
+                .css({
+                    'margin': '5px 10px'
+                });
+            $('#last-search-container').append(lastSearch).addClass('d-flex justify-content-center');
         }
     }
 }
