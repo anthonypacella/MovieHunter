@@ -13,16 +13,15 @@ function getPopularMovie() {
         })
         .then(function (data) {
             console.log(data);
-            for (var i=0; i<5; i++) {
-                if(data.results[i].overview !== "") {
-                    var title = $('<p></p>').text('Title: ' + data.results[i].title);
-                    var overview = $('<p></p>').text('Overview: ' + data.results[i].overview);
-                    var card = $('<div></div>').addClass('card col-3');
-                    card.append(title, overview);
-                $('#popular-container').append(card).addClass('row');
-                } 
+                for (var i=0; i<5; i++) {
+                    if (data.results[i].title.length<20) {
+                        var image = $('<img></img>').attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[i].poster_path).addClass('col-3');
+                        $('#image-container').append(image);
+                        var title = $('<h4></h4>').text(data.results[i].title).addClass('col-3').css('text-align', 'center');
+                        console.log(title.text().length);
+                        $('#title-container').append(title);
+                }
             }
-            
         })
 }
 getPopularMovie();
@@ -43,8 +42,11 @@ function showSearches() {
     if (searches !== null) {
         $('#last-search-container').empty();
         for (var i=0; i<searches.length && i<6; i++) {
-            var lastSearch = $('<button></button>').text(searches[i].query);
-            $('#last-search-container').append(lastSearch);
+            var lastSearch = $('<button></button>').text(searches[i].query).addClass('btn btn-dark')
+                .css({
+                    'margin': '5px 10px'
+                });
+            $('#last-search-container').append(lastSearch).addClass('d-flex justify-content-center');
         }
     }
 }
@@ -55,6 +57,11 @@ $(document).ready(function() {
 
 $('#search-button').on("click", function(event) {
     event.preventDefault();
-    saveSearches();
+    console.log($('#search-input').val().length)
+    if ($('#search-input').val().length !== 0) {
+        saveSearches();
+    } else {
+        alert("Please put in a movie name :)");
+    }
     showSearches();
 });

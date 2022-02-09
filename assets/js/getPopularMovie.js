@@ -14,13 +14,9 @@ function getPopularMovie() {
         .then(function (data) {
             console.log(data);
             for (var i=0; i<5; i++) {
-                if(data.results[i].overview !== "") {
-                    var title = $('<p></p>').text('Title: ' + data.results[i].title);
-                    var overview = $('<p></p>').text('Overview: ' + data.results[i].overview);
-                    var card = $('<div></div>').addClass('card col-3');
-                    card.append(title, overview);
-                $('#popular-container').append(card).addClass('row');
-                } 
+                var title = $('<p></p>').text('Title: ' + data.results[i].title);
+                var overview = $('<p></p>').text('Overview: ' + data.results[i].overview);
+                $('#popular-container').append(title, overview);
             }
             
         })
@@ -34,27 +30,16 @@ function saveSearches() {
     localStorage.setItem("searchQuery", JSON.stringify(searches));
     var searchesArr = [];
     searchesArr.push(searches);
-    searchesArr = searchesArr.concat(JSON.parse(localStorage.getItem("searchesArr")||"[]"));
-    localStorage.setItem("searchesArr", JSON.stringify(searchesArr));
+    searchesArr.setItem("searchesArr", JSON.stringify(searchesArr));
 }
 
 function showSearches() {
     var searches = JSON.parse(localStorage.getItem('searchesArr'));
     if (searches !== null) {
-        $('#last-search-container').empty();
         for (var i=0; i<searches.length && i<6; i++) {
             var lastSearch = $('<button></button>').text(searches[i].query);
             $('#last-search-container').append(lastSearch);
         }
     }
+//test
 }
-
-$(document).ready(function() {
-    showSearches();
-});
-
-$('#search-button').on("click", function(event) {
-    event.preventDefault();
-    saveSearches();
-    showSearches();
-});
