@@ -125,9 +125,10 @@ fetch (top250URL)
         return response.json();
     })
     .then (function(data) {
+        console.log(data);
         for (var i = 0; i<250; i++) {
             var newListItemEl = document.createElement("li");
-            var newListItem = data.items[i].fullTitle;
+            var newListItem = data.items[i].title;
             newListItemEl.textContent = newListItem;
             newListItemEl.setAttribute("class", "listItem");
             top250ListEl.append(newListItemEl);
@@ -151,8 +152,8 @@ fetch (mostPopularMoviesURL)
     .then (function(data){
         for (var i = 0; i<100; i++) {
             var newListItemEl = document.createElement("li");
-            var newListItem = data.items[i].fullTitle;
-            newListItemEl.textContent = newListItem;
+            var newListItem = data.items[i].title;
+            newListItemEl.innerHTML = "<a href='movieinfo.html'>" + newListItem + "</a>";
             mostPopularListEl.append(newListItemEl);
         }
     })
@@ -172,3 +173,4 @@ fetch (boxOfficeAllTimeURL)
             boxOfficeListEl.append(newListItemEl);
         }
     })
+
