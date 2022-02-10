@@ -1,57 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="color.css">
-    <link rel="stylesheet" href="style.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Hunter</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
+    />
 
-<body>
-    <div class="topnav">
-        <a class="active" href="#SearchBar">Search Bar</a>
-        <a href="#ranking">Rankings</a>
-      </div>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
 
-<main>
-    <section>
-        <div class="d-flex justify-content-center">
-            <h1>MovieHunter</h1>
+  <body>
+    <nav class="nav__list">
+      <a class="active nav__item" href="#SearchBar">Search Bar</a>
+      <a class="nav__item" href="#ranking">Rankings</a>
+    </nav>
+
+    <main>
+      <section class="image--container">
+        <div class="d-flex justify-content-center title__heading">
+          <h1>MovieHunter</h1>
         </div>
         <div class="logo">
+          <picture>
+            <img
+              class="hero__image"
+              src="assets/images/marina-hanna-G0DNvY08zYk-unsplash.jpg"
+              alt="A video store front with signs"
+            />
+          </picture>
         </div>
-    </section>
+      </section>
 
-    <section>
-        <div class="Search row d-flex justify-content-center">
-            <div class="col-auto">
-                <input class="form-control" id="search-input" type="text" autocomplete="off" placeholder="Search..">
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-outline-dark" id="search-button">Search</button>
-            </div> 
+      <section>
+        <div class="Search row d-flex justify-content-center search__bar">
+          <div class="col-auto">
+            <input
+              class="form-control"
+              id="search-input"
+              type="text"
+              autocomplete="off"
+              placeholder="Search.."
+            />
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-outline-dark" id="search-button">
+              Search
+            </button>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section>
-        <div id="last-search-container">
- 
-        </div>
-    </section>
+      <section>
+        <div id="last-search-container"></div>
+      </section>
+<<<<<<< Updated upstream
 
-    <section>
+      <section>
         <div id="popular-container">
-            <h2>Trending in 2021</h2>
-            <div class="row" id="image-container">
-
-            </div>
-            <div class="row" id="title-container">
-
-            </div>
+          <h2 class="container--heading">Trending in 2021</h2>
+          <div class="row" id="image-container"></div>
+          <div class="row" id="title-container"></div>
         </div>
+<<<<<<< Updated upstream
     </section>
 
     <section id = ranking-lists>
@@ -80,3 +104,24 @@
 
 </body>
 </html>
+=======
+=======
+
+      <section>
+        <div id="popular-container">
+          <h2 class="container--heading">Trending in 2021</h2>
+          <div class="row" id="image-container"></div>
+          <div class="row" id="title-container"></div>
+        </div>
+>>>>>>> Stashed changes
+      </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="./movieDB.js"></script>
+    <script type="text/javascript" src="./IMDB.js"></script>
+  </body>
+</html>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
