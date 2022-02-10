@@ -141,10 +141,6 @@ function printMovieGenre(genreIds) {
     }
 }
 
-function matchMovieGenre(){
-    
-
-}
 function getMovieCast(){
     var id = localStorage.getItem('movieID');
     var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/credits?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US';
