@@ -67,9 +67,9 @@ $('#search-button').on("click", function(event) {
 });
 
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
-var top250ListEl = document.querySelector("#top250List");
-var mostPopularListEl = document.querySelector("#mostPopularList");
-var boxOfficeListEl = document.querySelector("#boxOfficeList");
+var top250ListEl = document.querySelector("#top250list");
+var mostPopularListEl = document.querySelector("#mostPopularlist");
+var boxOfficeListEl = document.querySelector("#boxOfficelist");
 
 fetch (top250URL)
     .then (function(response) {
@@ -80,7 +80,6 @@ fetch (top250URL)
             var newListItemEl = document.createElement("li");
             var newListItem = data.items[i].fullTitle;
             newListItemEl.textContent = newListItem;
-            newListItemEl.setAttribute("style", "text-decoration: underline; color: blue");
             newListItemEl.setAttribute("class", "listItem");
             top250ListEl.append(newListItemEl);
         }
@@ -105,7 +104,6 @@ fetch (mostPopularMoviesURL)
             var newListItemEl = document.createElement("li");
             var newListItem = data.items[i].fullTitle;
             newListItemEl.textContent = newListItem;
-            newListItemEl.setAttribute("style", "text-decoration: underline; color: blue");
             mostPopularListEl.append(newListItemEl);
         }
     })
@@ -122,7 +120,6 @@ fetch (boxOfficeAllTimeURL)
             var newListItemEl = document.createElement("li");
             var newListItem = data.items[i].title;
             newListItemEl.textContent = newListItem;
-            newListItemEl.setAttribute("style", "text-decoration: underline; color: blue");
             boxOfficeListEl.append(newListItemEl);
         }
     })
