@@ -30,6 +30,7 @@ function saveSearches() {
     var searches = {
         query: $('#search-input').val()
     };
+    localStorage.setItem('searchWord', $('#search-input').val());
     localStorage.setItem("searchQuery", JSON.stringify(searches));
     var searchesArr = [];
     searchesArr.push(searches);
@@ -151,3 +152,37 @@ fetch (boxOfficeAllTimeURL)
         }
 
     })
+
+    function displayMovieInfo() {
+        $('#search-button').on('click', function() {
+            window.location = './movieinfo.html';
+            getMovieInfo(localStorage.getItem('searchWord'));
+        })
+    }
+     
+    function getMovieInfo(name) {
+        var requestUrl='https://api.themoviedb.org/3/search/movie?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&query='+name+'&page=1';
+        fetch(requestUrl) 
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                $('#movie-title-text').text(data.results[0].title);
+                getWatchProvider(data.results[0].id);
+                $('#streaming-platform-name').text('Rent from '+localStorage.getItem('rentFrom')+', Buy from ' + localStorage.getItem('buyFrom'));
+            })
+        
+    }
+
+    function getWatchProvider(id) {
+        var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/watch/providers?api_key=67ee7262b46b2cfedff77e6b877aac65';
+        fetch(requestUrl)
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                localStorage.setItem('rentFrom', data.results.rent[0].provider_name);
+                localStorage.getItem('buyFrom', data.results.buy[0].provider_name);
+            })
+    
+    }
