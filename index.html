@@ -15,9 +15,38 @@
         <a href="#ranking">Rankings</a>
       </div>
     </section>
-    <div class="searchbar">
-        <input type="text" placeholder="Search..">
-        <button type="button">Search</button>
-    </div>
+
+    <section>
+        <div class="Search row d-flex justify-content-center">
+            <div class="col-auto">
+                <input class="form-control" id="search-input" type="text" autocomplete="off" placeholder="Search..">
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-outline-dark" id="search-button">Search</button>
+            </div> 
+        </div>
+    </section>
+
+    <section>
+        <div id="last-search-container">
+ 
+        </div>
+    </section>
+
+    <section>
+        <div id="popular-container">
+            <h2>Trending in 2021</h2>
+            <div class="row" id="image-container">
+
+            </div>
+            <div class="row" id="title-container">
+
+            </div>
+        </div>
+    </section>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="./assets/js/script.js" ></script>
+
 </body>
 </html>
