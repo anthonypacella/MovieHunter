@@ -1,6 +1,6 @@
 :root {
   --color--primary: #1766e6;
-  --color--secondary: #d7d5ed;
+  --color--secondary: #e6e4f0;
   --color--headings: #222;
   --color--accents: #de2f34;
 }
@@ -13,5 +13,64 @@ html {
   box-sizing: border-box;
 }
 body {
+  background-color: var(--color--secondary);
+}
+body {
+  margin: 5rem;
   border-radius: 15px;
+}
+
+a:hover {
+  opacity: 0.7;
+  transition: 0.03s;
+}
+
+.hero__image {
+  height: 70vh;
+  object-fit: cover;
+  width: 100vw;
+}
+.nav__item {
+  padding: 0.5rem 2rem;
+  font-weight: bold;
+  margin-right: 2rem;
+  text-decoration: none;
+}
+.nav__item:hover {
+  opacity: 0.7;
+  transition: 0.03s ease-out;
+}
+.nav__list {
+  width: auto;
+  display: flex;
+  font-size: 1.6rem;
+  max-height: 100%;
+  opacity: 1;
+}
+.nav__list {
+  color: var(--color--primary);
+}
+.image--container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.search__bar {
+  margin-top: 1rem;
+  padding-bottom: 2rem;
+}
+.title__heading {
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  font-size: 3rem;
+}
+.title__heading {
+  color: var(--color--primary);
+}
+
+.container--heading {
+  color: var(--color--primary);
+  font-weight: bolder;
 }
