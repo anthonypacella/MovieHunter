@@ -13,13 +13,15 @@ html {
 }
 
 body {
-  background-image: url(./../../images/abstract_background.jpg);
+  background-image: url(./../../images/wintery-sunburst3.svg);
+  background-position: center;
   background-size: cover;
 }
 
 body {
-  margin: 5rem;
   border-radius: 15px;
+  font-family: "Maven Pro", Arial, Helvetica, sans-serif;
+  margin: 5rem;
 }
 
 a:hover {
@@ -30,6 +32,10 @@ a:hover {
 .footer__link {
   font-size: 2rem;
   color: var(--color--accents);
+}
+
+h1 {
+  font-weight: 900;
 }
 
 .hero__image {
@@ -46,11 +52,22 @@ a:hover {
   margin-top: 5rem;
 }
 
+.image--container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5rem;
+}
+
 .nav__item {
-  font-weight: bold;
+  font-weight: 900;
   margin-right: 2rem;
   padding: 0.5rem 2rem;
   text-decoration: none;
+}
+
+.nav__item {
+  color: var(--color--primary);
 }
 
 .nav__item:hover {
@@ -70,19 +87,13 @@ a:hover {
   color: var(--color--primary);
 }
 
-.image--container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 5rem;
-}
-
 .search__bar {
   margin-top: 1rem;
   padding-bottom: 5rem;
 }
 
 .title__heading {
+  font-weight: 900;
   letter-spacing: 0.2rem;
   margin-bottom: 1.5rem;
   margin-top: 4rem;
