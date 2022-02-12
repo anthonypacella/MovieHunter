@@ -80,9 +80,40 @@ function getMovieInfo(name) {
             return response.json();
         })
         .then(function (data) {
+                        $('#rating-input').show();
+            //Rate Movie
+            const ratingStars = [...document.getElementsByClassName("rating-star")];
+            const ratingResult = document.querySelector(".rating-result");
+
+            saveRating(ratingResult);
+
+            function getRating(stars, result) {
+            const starClassActive = "rating-star fas fa-star";
+            const starClassUnactive = "rating-star far fa-star";
+            const starsLength = stars.length;
+            let i;
+            stars.map((star) => {
+                star.onclick = () => {
+                    i = stars.indexOf(star);
+
+                    if (star.className.indexOf(starClassUnactive) !== -1) {
+                        saveRating(result, i + 1);
+                        for (i; i >= 0; --i) stars[i].className = starClassActive;
+                    } else {
+                        saveRating(result, i);
+                        for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
+                    }
+                };
+            });
+            }
+            function saveRating(result, num = 0) {
+                result.textContent = `${num}/5`;
+            }
+            getRating(ratingStars, ratingResult);
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
-            $('#movie-title-text').text(data.results[0].title);
+            $('#movie-title-text').text(data.results[0].title).addClass('far far-star');
+            $('#movie-rating').text('Average Rating: ' + (data.results[0].vote_average/2).toFixed(1));
             $('#movie-poster-image')
                 .attr({
                     'src': 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path,
@@ -93,7 +124,7 @@ function getMovieInfo(name) {
             printMovieGenre(data.results[0].genre_ids);
             getMovieCast();
             getRecommendation();
-        })
+        })    
 }
 
 function getWatchProvider() {
