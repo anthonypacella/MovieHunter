@@ -161,10 +161,20 @@ function getMovieCast(){
 
 // Anthony's JS section
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
+var mostPopularMoviesURL = "https://imdb-api.com/en/API/MostPopularMovies/k_4s3kqyy2";
+var boxOfficeAllTimeURL = "https://imdb-api.com/en/API/BoxOfficeAllTime/k_4s3kqyy2";
+
+//query selector
 var top250ListEl = document.querySelector("#top250list");
 var mostPopularListEl = document.querySelector("#mostPopularlist");
 var boxOfficeListEl = document.querySelector("#boxOfficelist");
 
+//event listener
+top250ListEl.addEventListener("click",saveSearchWord);
+mostPopularListEl.addEventListener("click",saveSearchWord);
+boxOfficeListEl.addEventListener("click",saveSearchWord);
+
+//fetch
 fetch (top250URL)
     .then (function(response) {
         return response.json();
@@ -174,20 +184,11 @@ fetch (top250URL)
         for (var i = 0; i<250; i++) {
             var newListItemEl = document.createElement("li");
             var newListItem = data.items[i].title;
-            newListItemEl.textContent = newListItem;
+            newListItemEl.innerHTML = "<a href='movieinfo.html'>" + newListItem + "</a>";
             newListItemEl.setAttribute("class", "listItem");
             top250ListEl.append(newListItemEl);
         }
-
-        top250ListEl.addEventListener("click", findtop250Movie);
-
-        function findtop250Movie (event) {
-            console.log(event.target.textContent);
-        }
     })
-
-
-var mostPopularMoviesURL = "https://imdb-api.com/en/API/MostPopularMovies/k_4s3kqyy2";
 
 fetch (mostPopularMoviesURL)
     .then (function(response) {
@@ -203,8 +204,6 @@ fetch (mostPopularMoviesURL)
         }
     })
 
-var boxOfficeAllTimeURL = "https://imdb-api.com/en/API/BoxOfficeAllTime/k_4s3kqyy2"
-
 fetch (boxOfficeAllTimeURL)
     .then (function(response){
         return response.json();
@@ -214,8 +213,15 @@ fetch (boxOfficeAllTimeURL)
         for (var i = 0; i<100; i++) {
             var newListItemEl = document.createElement("li");
             var newListItem = data.items[i].title;
-            newListItemEl.textContent = newListItem;
+            newListItemEl.innerHTML = "<a href='movieinfo.html'>" + newListItem + "</a>";
             boxOfficeListEl.append(newListItemEl);
         }
     })
 
+//functions
+function saveSearchWord(event) {
+
+    var movieClicked = event.target.textContent;
+    localStorage.setItem("searchWord",movieClicked);
+    
+}
