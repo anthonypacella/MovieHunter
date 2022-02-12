@@ -1,5 +1,5 @@
 :root {
-  --color--primary: #1766e6;
+  --color--primary: #1f1bd8;
   --color--secondary: #e6e4f0;
   --color--accents: #de2f34;
 }
@@ -11,9 +11,12 @@ html {
 * {
   box-sizing: border-box;
 }
+
 body {
-  background-color: var(--color--secondary);
+  background-image: url(./../../images/abstract_background.jpg);
+  background-size: cover;
 }
+
 body {
   margin: 5rem;
   border-radius: 15px;
@@ -42,30 +45,35 @@ a:hover {
 .movie__container {
   margin-top: 5rem;
 }
+
 .nav__item {
-  padding: 0.5rem 2rem;
   font-weight: bold;
   margin-right: 2rem;
+  padding: 0.5rem 2rem;
   text-decoration: none;
 }
+
 .nav__item:hover {
   opacity: 0.7;
   transition: 0.03s ease-out;
 }
+
 .nav__list {
-  width: auto;
   display: flex;
   font-size: 1.6rem;
   max-height: 100%;
   opacity: 1;
+  width: auto;
 }
+
 .nav__list {
   color: var(--color--primary);
 }
+
 .image--container {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-bottom: 5rem;
 }
 
@@ -73,6 +81,7 @@ a:hover {
   margin-top: 1rem;
   padding-bottom: 5rem;
 }
+
 .title__heading {
   letter-spacing: 0.2rem;
   margin-bottom: 1.5rem;
@@ -85,6 +94,7 @@ a:hover {
     font-size: 3rem;
   }
 }
+
 .title__heading {
   color: var(--color--primary);
 }
@@ -98,11 +108,21 @@ a:hover {
   font-weight: bolder;
   padding-bottom: 5rem;
 }
+
+.ranking--div {
+  color: var(--color--primary);
+}
+
 .ranking--div {
   font-size: 1.5rem;
   height: 30vh;
-  overflow: auto;
   margin-bottom: 5rem;
-  margin-right: 20rem;
+  margin-right: 25rem;
   margin-top: 5rem;
+  overflow: auto;
+}
+
+.ranking--div a {
+  color: var(--color--primary);
+  text-decoration: none;
 }
