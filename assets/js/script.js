@@ -6,7 +6,6 @@ collapsibles.forEach((item) =>
   })
 );
 
-//Sally's JS section
 function getPopularMovie() {
     var requestUrl='https://api.themoviedb.org/3/discover/movie?primary_release_year=2021&sort_by=vote_average.desc&api_key=67ee7262b46b2cfedff77e6b877aac65';
     fetch(requestUrl)
@@ -140,14 +139,20 @@ function getMovieReview() {
         })
         .then(function (data) {
             console.log(data);
-            console.log("hello");
-            $("#movie-review-author").text(data.results[0].author);
-            $("#movie-review-content").text(data.results[0].content);
+            
+            var reviewCount = data.results.length;
+            var randomNumber = Math.floor(Math.random() * reviewCount);
+
+            console.log(randomNumber);
+            console.log(data.results);
+            console.log(randomNumber);
+            $("#movie-review-author").text("Author: " + data.results[randomNumber].author);
+            $("#movie-review-content").text(data.results[randomNumber].content);
             var releaseDate = data.results[0].updated_at;
             var releaseYear = releaseDate.substring(0,4);
             var releaseMonth = releaseDate.substring(5,7);
             var releaseDay = releaseDate.substring(8,10);
-            $("#movie-review-date").text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
+            $("#movie-review-date").text("Submitted: " + releaseMonth + "-" + releaseDay + "-" + releaseYear);
         })
 }
 
@@ -202,8 +207,6 @@ function getRecommendation() {
 }
 
 
-
-// Anthony's JS section
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
 var mostPopularMoviesURL = "https://imdb-api.com/en/API/MostPopularMovies/k_4s3kqyy2";
 var boxOfficeAllTimeURL = "https://imdb-api.com/en/API/BoxOfficeAllTime/k_4s3kqyy2";
