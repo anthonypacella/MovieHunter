@@ -82,11 +82,16 @@ function getMovieInfo(name) {
         .then(function (data) {
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
+            var releaseDate = data.results[0].release_date;
+            var releaseYear = releaseDate.substring(0,4);
+            var releaseMonth = releaseDate.substring(5,7);
+            var releaseDay = releaseDate.substring(8,10);
             $('#movie-title-text').text(data.results[0].title);
             $('#movie-poster-img').attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path);
             getWatchProvider();
             $('#movie-summary').text(data.results[0].overview);
             $('#movie-genre').text(printMovieGenre(data.results[0].genre_ids));
+            $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
         })
 }
 
@@ -178,5 +183,5 @@ function saveSearchWord(event) {
 
     var movieClicked = event.target.textContent;
     localStorage.setItem("searchWord",movieClicked);
-    
+
 }
