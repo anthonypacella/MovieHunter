@@ -92,6 +92,7 @@ function getMovieInfo(name) {
             $('#movie-summary').text(data.results[0].overview);
             $('#movie-genre').text(printMovieGenre(data.results[0].genre_ids));
             $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
+            getMovieReview();
         })
 }
 
@@ -109,6 +110,25 @@ function getWatchProvider() {
             localStorage.setItem('rentFrom', rent);
             localStorage.setItem('buyFrom', buy);
             $('#streaming-platform-name').text('Rent from '+localStorage.getItem('rentFrom')+', Buy from ' + localStorage.getItem('buyFrom'));
+        })
+}
+
+function getMovieReview() {
+    var id = localStorage.getItem('movieID');
+    var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65';
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            $("#movie-review-author").text(data.results[0].author);
+            $("#movie-review-content").text(data.results[0].content);
+            var releaseDate = data.results[0].updated_at;
+            var releaseYear = releaseDate.substring(0,4);
+            var releaseMonth = releaseDate.substring(5,7);
+            var releaseDay = releaseDate.substring(8,10);
+            $("#movie-review-date").text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
         })
 }
 
