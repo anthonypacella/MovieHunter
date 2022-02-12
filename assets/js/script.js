@@ -95,8 +95,10 @@ function getMovieInfo(name) {
             getWatchProvider();
             $('#movie-summary').text(data.results[0].overview);
             printMovieGenre(data.results[0].genre_ids);
+            $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
             getMovieCast();
             getRecommendation();
+            getMovieReview();
         })
 }
 
@@ -138,6 +140,7 @@ function getMovieReview() {
         })
         .then(function (data) {
             console.log(data);
+            console.log("hello");
             $("#movie-review-author").text(data.results[0].author);
             $("#movie-review-content").text(data.results[0].content);
             var releaseDate = data.results[0].updated_at;
