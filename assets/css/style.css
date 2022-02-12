@@ -1,7 +1,6 @@
 :root {
   --color--primary: #1766e6;
   --color--secondary: #e6e4f0;
-  --color--headings: #222;
   --color--accents: #de2f34;
 }
 
@@ -25,10 +24,23 @@ a:hover {
   transition: 0.03s;
 }
 
+.footer__link {
+  font-size: 2rem;
+  color: var(--color--accents);
+}
+
 .hero__image {
   height: 70vh;
   object-fit: cover;
   width: 100vw;
+}
+
+.last-search__container {
+  margin-bottom: 4rem;
+}
+
+.movie__container {
+  margin-top: 5rem;
 }
 .nav__item {
   padding: 0.5rem 2rem;
@@ -54,17 +66,24 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
 }
 
 .search__bar {
   margin-top: 1rem;
-  padding-bottom: 2rem;
+  padding-bottom: 5rem;
 }
 .title__heading {
+  letter-spacing: 0.2rem;
   margin-bottom: 1.5rem;
-  margin-top: 2rem;
-  font-size: 3rem;
+  margin-top: 4rem;
+  font-size: 4rem;
+}
+
+@media screen and (max-width: 550px) {
+  .title__heading {
+    font-size: 3rem;
+  }
 }
 .title__heading {
   color: var(--color--primary);
@@ -72,5 +91,18 @@ a:hover {
 
 .container--heading {
   color: var(--color--primary);
+}
+
+.container--heading {
+  font-size: 3rem;
   font-weight: bolder;
+  padding-bottom: 5rem;
+}
+.ranking--div {
+  font-size: 1.5rem;
+  height: 30vh;
+  overflow: auto;
+  margin-bottom: 5rem;
+  margin-right: 20rem;
+  margin-top: 5rem;
 }
