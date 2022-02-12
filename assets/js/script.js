@@ -83,10 +83,11 @@ function getMovieInfo(name) {
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
             $('#movie-title-text').text(data.results[0].title);
-            $('#movie-poster-img').attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path);
+            $('#movie-poster-image').attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path);
             getWatchProvider();
             $('#movie-summary').text(data.results[0].overview);
-            $('#movie-genre').text(printMovieGenre(data.results[0].genre_ids));
+            printMovieGenre(data.results[0].genre_ids);
+            getMovieCast();
         })
 }
 
@@ -103,18 +104,62 @@ function getWatchProvider() {
             var buy = data.results.US.buy[0].provider_name;
             localStorage.setItem('rentFrom', rent);
             localStorage.setItem('buyFrom', buy);
-            $('#streaming-platform-name').text('Rent from '+localStorage.getItem('rentFrom')+', Buy from ' + localStorage.getItem('buyFrom'));
+            var rentSrc = $('<span></span>').text('Rent from '+localStorage.getItem('rentFrom'));
+            var rentImg = $('<img></img>').attr('src', 'https://www.themoviedb.org/t/p/original'+data.results.US.rent[0].logo_path);
+            var buySrc = $('<span></span>').text(', Buy from ' + localStorage.getItem('buyFrom'));
+            var buyImg = $('<img></img>').attr('src', 'https://www.themoviedb.org/t/p/original'+data.results.US.buy[0].logo_path);
+            $('#streaming-platform-name').text('').append(rentSrc, rentImg, buySrc, buyImg);
         })
 }
 
-function printMovieGenre(string) {
-    for (i=0; i<string.length; i++){
-        console.log(string[i]);
+function printMovieGenre(genreIds) {
+    console.log('genreIds', genreIds);
+    const genre = {
+        28: 'Action',
+        12: 'Adventure',
+        16: 'Animation',
+        35: 'Comedy',
+        80: 'Crime',
+        99: 'Documentary',
+        18: 'Drama',
+        10751: 'Family',
+        14: 'Fantasy',
+        36: 'History',
+        27: 'Horror',
+        10402: 'Music',
+        9648: 'Mystery',
+        10749: 'Romance',
+        878: 'Science Fiction',
+        10770: 'TV Movie',
+        53: 'Thriller',
+        10752: 'War',
+        37: 'Western'
+    }
+    for (i=0; i<genreIds.length; i++) {
+        var genreName = $('<span></span>').text(genre[genreIds[i]]+'; ');
+        $('#movie-genre').text('').append(genreName);
     }
 }
 
+function getMovieCast(){
+    var id = localStorage.getItem('movieID');
+    var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/credits?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US';
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            var castList = $('<div></div>');
+            for (var i=0; i<5 && data.cast.length; i++){
+                var castName = $('<span></span>').text(data.cast[i].name+'; ');
+                castList.append(castName);
+            }
+            $('#movie-cast').text('').append(castList);
+        })
+}
 
-//Anthony's JS section
+// Anthony's JS section
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
 var top250ListEl = document.querySelector("#top250list");
 var mostPopularListEl = document.querySelector("#mostPopularlist");
@@ -125,9 +170,10 @@ fetch (top250URL)
         return response.json();
     })
     .then (function(data) {
+        console.log(data);
         for (var i = 0; i<250; i++) {
             var newListItemEl = document.createElement("li");
-            var newListItem = data.items[i].fullTitle;
+            var newListItem = data.items[i].title;
             newListItemEl.textContent = newListItem;
             newListItemEl.setAttribute("class", "listItem");
             top250ListEl.append(newListItemEl);
@@ -151,8 +197,8 @@ fetch (mostPopularMoviesURL)
     .then (function(data){
         for (var i = 0; i<100; i++) {
             var newListItemEl = document.createElement("li");
-            var newListItem = data.items[i].fullTitle;
-            newListItemEl.textContent = newListItem;
+            var newListItem = data.items[i].title;
+            newListItemEl.innerHTML = "<a href='movieinfo.html'>" + newListItem + "</a>";
             mostPopularListEl.append(newListItemEl);
         }
     })
@@ -172,3 +218,4 @@ fetch (boxOfficeAllTimeURL)
             boxOfficeListEl.append(newListItemEl);
         }
     })
+
