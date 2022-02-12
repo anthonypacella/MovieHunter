@@ -83,11 +83,16 @@ function getMovieInfo(name) {
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
             $('#movie-title-text').text(data.results[0].title);
-            $('#movie-poster-image').attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path);
+            $('#movie-poster-image')
+                .attr({
+                    'src': 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path,
+                    'alt': data.results[0].title
+                });
             getWatchProvider();
             $('#movie-summary').text(data.results[0].overview);
             printMovieGenre(data.results[0].genre_ids);
             getMovieCast();
+            getRecommendation();
         })
 }
 
@@ -105,9 +110,17 @@ function getWatchProvider() {
             localStorage.setItem('rentFrom', rent);
             localStorage.setItem('buyFrom', buy);
             var rentSrc = $('<span></span>').text('Rent from '+localStorage.getItem('rentFrom'));
-            var rentImg = $('<img></img>').attr('src', 'https://www.themoviedb.org/t/p/original'+data.results.US.rent[0].logo_path);
+            var rentImg = $('<img></img>')
+                .attr({
+                    'src': 'https://www.themoviedb.org/t/p/original'+data.results.US.rent[0].logo_path,
+                    'alt': data.results.US.rent[0].provider_name})
+                    .css('width', '45px');
             var buySrc = $('<span></span>').text(', Buy from ' + localStorage.getItem('buyFrom'));
-            var buyImg = $('<img></img>').attr('src', 'https://www.themoviedb.org/t/p/original'+data.results.US.buy[0].logo_path);
+            var buyImg = $('<img></img>')
+                .attr({
+                    'src': 'https://www.themoviedb.org/t/p/original'+data.results.US.buy[0].logo_path,
+                    'alt': data.results.US.buy[0].provider_name})
+                .css('width', '45px');
             $('#streaming-platform-name').text('').append(rentSrc, rentImg, buySrc, buyImg);
         })
 }
@@ -158,6 +171,34 @@ function getMovieCast(){
             $('#movie-cast').text('').append(castList);
         })
 }
+
+function getRecommendation() {
+    var id = localStorage.getItem('movieID');
+    var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/recommendations?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&page=1';
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        }) 
+        .then(function (data) {
+            console.log(data);
+            for(var i=0; i<6; i++) {
+                var poster = $('<img></img>')
+                    .attr({
+                        'src': 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[i].poster_path,
+                        'alt': data.results[i].title,
+                        'title': data.results[i].title
+                    })
+                    .addClass('col-2 poster')
+                $('#recommendation-container').append(poster).addClass('row');
+            }
+        })
+        $(document).on('click', '.poster', function(event){
+            localStorage.setItem('searchWord', event.target.title);
+            window.location.reload();
+        });
+}
+
+
 
 // Anthony's JS section
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
