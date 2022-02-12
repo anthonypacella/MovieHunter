@@ -73,8 +73,6 @@ $(document).ready(function() {
     getMovieInfo(localStorage.getItem('searchWord'));
 })
 
-//comment test
-
 function getMovieInfo(name) {
     var requestUrl='https://api.themoviedb.org/3/search/movie?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&query='+name+'&page=1';
     fetch(requestUrl) 
@@ -96,9 +94,6 @@ function getMovieInfo(name) {
                 });
             getWatchProvider();
             $('#movie-summary').text(data.results[0].overview);
-            $('#movie-genre').text(printMovieGenre(data.results[0].genre_ids));
-            $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
-            getMovieReview();
             printMovieGenre(data.results[0].genre_ids);
             getMovieCast();
             getRecommendation();
@@ -156,32 +151,6 @@ function getMovieReview() {
 function printMovieGenre(string) {
     for (i=0; i<string.length; i++){
         console.log(string[i]);
-function printMovieGenre(genreIds) {
-    console.log('genreIds', genreIds);
-    const genre = {
-        28: 'Action',
-        12: 'Adventure',
-        16: 'Animation',
-        35: 'Comedy',
-        80: 'Crime',
-        99: 'Documentary',
-        18: 'Drama',
-        10751: 'Family',
-        14: 'Fantasy',
-        36: 'History',
-        27: 'Horror',
-        10402: 'Music',
-        9648: 'Mystery',
-        10749: 'Romance',
-        878: 'Science Fiction',
-        10770: 'TV Movie',
-        53: 'Thriller',
-        10752: 'War',
-        37: 'Western'
-    }
-    for (i=0; i<genreIds.length; i++) {
-        var genreName = $('<span></span>').text(genre[genreIds[i]]+'; ');
-        $('#movie-genre').text('').append(genreName);
     }
 }
 
@@ -228,6 +197,8 @@ function getRecommendation() {
             window.location.reload();
         });
 }
+
+
 
 // Anthony's JS section
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
