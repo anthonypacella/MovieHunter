@@ -6,7 +6,6 @@ collapsibles.forEach((item) =>
   })
 );
 
-//Sally's JS section
 function getPopularMovie() {
     var requestUrl='https://api.themoviedb.org/3/discover/movie?primary_release_year=2021&sort_by=vote_average.desc&api_key=67ee7262b46b2cfedff77e6b877aac65';
     fetch(requestUrl)
@@ -82,6 +81,10 @@ function getMovieInfo(name) {
         .then(function (data) {
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
+            var releaseDate = data.results[0].release_date;
+            var releaseYear = releaseDate.substring(0,4);
+            var releaseMonth = releaseDate.substring(5,7);
+            var releaseDay = releaseDate.substring(8,10);
             $('#movie-title-text').text(data.results[0].title);
             $('#movie-poster-image')
                 .attr({
@@ -91,8 +94,10 @@ function getMovieInfo(name) {
             getWatchProvider();
             $('#movie-summary').text(data.results[0].overview);
             printMovieGenre(data.results[0].genre_ids);
+            $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
             getMovieCast();
             getRecommendation();
+            getMovieReview();
         })
 }
 
@@ -125,32 +130,35 @@ function getWatchProvider() {
         })
 }
 
-function printMovieGenre(genreIds) {
-    console.log('genreIds', genreIds);
-    const genre = {
-        28: 'Action',
-        12: 'Adventure',
-        16: 'Animation',
-        35: 'Comedy',
-        80: 'Crime',
-        99: 'Documentary',
-        18: 'Drama',
-        10751: 'Family',
-        14: 'Fantasy',
-        36: 'History',
-        27: 'Horror',
-        10402: 'Music',
-        9648: 'Mystery',
-        10749: 'Romance',
-        878: 'Science Fiction',
-        10770: 'TV Movie',
-        53: 'Thriller',
-        10752: 'War',
-        37: 'Western'
-    }
-    for (i=0; i<genreIds.length; i++) {
-        var genreName = $('<span></span>').text(genre[genreIds[i]]+'; ');
-        $('#movie-genre').text('').append(genreName);
+function getMovieReview() {
+    var id = localStorage.getItem('movieID');
+    var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65';
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            
+            var reviewCount = data.results.length;
+            var randomNumber = Math.floor(Math.random() * reviewCount);
+
+            console.log(randomNumber);
+            console.log(data.results);
+            console.log(randomNumber);
+            $("#movie-review-author").text("Author: " + data.results[randomNumber].author);
+            $("#movie-review-content").text(data.results[randomNumber].content);
+            var releaseDate = data.results[0].updated_at;
+            var releaseYear = releaseDate.substring(0,4);
+            var releaseMonth = releaseDate.substring(5,7);
+            var releaseDay = releaseDate.substring(8,10);
+            $("#movie-review-date").text("Submitted: " + releaseMonth + "-" + releaseDay + "-" + releaseYear);
+        })
+}
+
+function printMovieGenre(string) {
+    for (i=0; i<string.length; i++){
+        console.log(string[i]);
     }
 }
 
@@ -199,8 +207,6 @@ function getRecommendation() {
 }
 
 
-
-// Anthony's JS section
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
 var mostPopularMoviesURL = "https://imdb-api.com/en/API/MostPopularMovies/k_4s3kqyy2";
 var boxOfficeAllTimeURL = "https://imdb-api.com/en/API/BoxOfficeAllTime/k_4s3kqyy2";
@@ -264,5 +270,5 @@ function saveSearchWord(event) {
 
     var movieClicked = event.target.textContent;
     localStorage.setItem("searchWord",movieClicked);
-    
+
 }
