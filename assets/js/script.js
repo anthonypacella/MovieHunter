@@ -79,6 +79,39 @@ function getMovieInfo(name) {
             return response.json();
         })
         .then(function (data) {
+
+            //Rate Movie
+            const ratingStars = [...document.getElementsByClassName("rating-star")];
+            const ratingResult = document.querySelector(".rating-result");
+
+            printRatingResult(ratingResult);
+
+            function executeRating(stars, result) {
+            const starClassActive = "rating-star fas fa-star";
+            const starClassUnactive = "rating-star far fa-star";
+            const starsLength = stars.length;
+            let i;
+            stars.map((star) => {
+                star.onclick = () => {
+                    i = stars.indexOf(star);
+
+                    if (star.className.indexOf(starClassUnactive) !== -1) {
+                        printRatingResult(result, i + 1);
+                        for (i; i >= 0; --i) stars[i].className = starClassActive;
+                    } else {
+                        printRatingResult(result, i);
+                        for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
+                    }
+                };
+            });
+            }
+
+            function printRatingResult(result, num = 0) {
+            result.textContent = `${num}/5`;
+            }
+
+            executeRating(ratingStars, ratingResult);
+            
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
             var releaseDate = data.results[0].release_date;
