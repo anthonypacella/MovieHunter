@@ -44,7 +44,10 @@ function showSearches() {
     if (searches !== null) {
         $('#last-search-container').empty();
         for (var i=0; i<searches.length && i<6; i++) {
-            var lastSearch = $('<button></button>').text(searches[i].query).addClass('btn btn-dark')
+            var lastSearch = $('<button></button>')
+                .text(searches[i].query)
+                .val(searches[i].query)
+                .addClass('btn btn-dark history-button')
                 .css({
                     'margin': '5px 10px'
                 });
@@ -68,6 +71,12 @@ $('#search-button').on("click", function(event) {
     }
 });
 
+$('#last-search-container').on('click', '.history-button', function(event){
+    console.log(event.target.value);
+    localStorage.setItem('searchWord', event.target.value);
+    window.location = './movieinfo.html';
+})
+
 $(document).ready(function() {
     getMovieInfo(localStorage.getItem('searchWord'));
 })
@@ -79,38 +88,13 @@ function getMovieInfo(name) {
             return response.json();
         })
         .then(function (data) {
-
             //Rate Movie
-            const ratingStars = [...document.getElementsByClassName("rating-star")];
-            const ratingResult = document.querySelector(".rating-result");
-
-            printRatingResult(ratingResult);
-
-            function executeRating(stars, result) {
-            const starClassActive = "rating-star fas fa-star";
-            const starClassUnactive = "rating-star far fa-star";
-            const starsLength = stars.length;
-            let i;
-            stars.map((star) => {
-                star.onclick = () => {
-                    i = stars.indexOf(star);
-
-                    if (star.className.indexOf(starClassUnactive) !== -1) {
-                        printRatingResult(result, i + 1);
-                        for (i; i >= 0; --i) stars[i].className = starClassActive;
-                    } else {
-                        printRatingResult(result, i);
-                        for (i; i < starsLength; ++i) stars[i].className = starClassUnactive;
-                    }
-                };
-            });
+            var num = parseInt(data.results[0].vote_average)*0.5;
+            console.log(num);
+            for(var i=0; i<num; i++) {
+                var id = '#star'+i;
+                $(id).addClass('fas').removeClass('far');
             }
-
-            function printRatingResult(result, num = 0) {
-            result.textContent = `${num}/5`;
-            }
-
-            executeRating(ratingStars, ratingResult);
             
             console.log(data);
             localStorage.setItem('movieID', data.results[0].id);
@@ -129,10 +113,12 @@ function getMovieInfo(name) {
             printMovieGenre(data.results[0].genre_ids);
             $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
             getMovieCast();
-            getRecommendation();
+            printMovieGenre(data.results[0].genre_ids);
             getMovieReview();
+            getRecommendation();
         })
 }
+
 
 function getWatchProvider() {
     var id = localStorage.getItem('movieID');
@@ -152,46 +138,77 @@ function getWatchProvider() {
                 .attr({
                     'src': 'https://www.themoviedb.org/t/p/original'+data.results.US.rent[0].logo_path,
                     'alt': data.results.US.rent[0].provider_name})
-                    .css('width', '45px');
+                .css({
+                    'width': '40px',
+                    'border-radius': '10px',
+                    'margin': '4px'
+                });
             var buySrc = $('<span></span>').text(', Buy from ' + localStorage.getItem('buyFrom'));
             var buyImg = $('<img></img>')
                 .attr({
                     'src': 'https://www.themoviedb.org/t/p/original'+data.results.US.buy[0].logo_path,
                     'alt': data.results.US.buy[0].provider_name})
-                .css('width', '45px');
+                .css({
+                    'width': '40px',
+                    'border-radius': '10px',
+                    'margin': '4px'
+                });
             $('#streaming-platform-name').text('').append(rentSrc, rentImg, buySrc, buyImg);
         })
 }
 
-function getMovieReview() {
-    var id = localStorage.getItem('movieID');
-    var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65';
-    fetch(requestUrl)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
+// function getMovieReview() {
+//     var id = localStorage.getItem('movieID');
+//     var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65';
+//     fetch(requestUrl)
+//         .then(function (response) {
+//             return response.json();
+//         })
+//         .then(function (data) {
+//             console.log(data);
             
-            var reviewCount = data.results.length;
-            var randomNumber = Math.floor(Math.random() * reviewCount);
+//             var reviewCount = data.results.length;
+//             var randomNumber = Math.floor(Math.random() * reviewCount);
 
-            console.log(randomNumber);
-            console.log(data.results);
-            console.log(randomNumber);
-            $("#movie-review-author").text("Author: " + data.results[randomNumber].author);
-            $("#movie-review-content").text(data.results[randomNumber].content);
-            var releaseDate = data.results[0].updated_at;
-            var releaseYear = releaseDate.substring(0,4);
-            var releaseMonth = releaseDate.substring(5,7);
-            var releaseDay = releaseDate.substring(8,10);
-            $("#movie-review-date").text("Submitted: " + releaseMonth + "-" + releaseDay + "-" + releaseYear);
-        })
-}
+//             console.log(randomNumber);
+//             console.log(data.results);
+//             console.log(randomNumber);
+//             $("#movie-review-author").text("Author: " + data.results[randomNumber].author);
+//             $("#movie-review-content").text(data.results[randomNumber].content);
+//             var releaseDate = data.results[0].updated_at;
+//             var releaseYear = releaseDate.substring(0,4);
+//             var releaseMonth = releaseDate.substring(5,7);
+//             var releaseDay = releaseDate.substring(8,10);
+//             $("#movie-review-date").text("Submitted: " + releaseMonth + "-" + releaseDay + "-" + releaseYear);
+//         })
+// }
 
-function printMovieGenre(string) {
-    for (i=0; i<string.length; i++){
-        console.log(string[i]);
+function printMovieGenre(genreIds) {
+    console.log('genreIds', genreIds);
+    const genre = {
+        28: 'Action',
+        12: 'Adventure',
+        16: 'Animation',
+        35: 'Comedy',
+        80: 'Crime',
+        99: 'Documentary',
+        18: 'Drama',
+        10751: 'Family',
+        14: 'Fantasy',
+        36: 'History',
+        27: 'Horror',
+        10402: 'Music',
+        9648: 'Mystery',
+        10749: 'Romance',
+        878: 'Science Fiction',
+        10770: 'TV Movie',
+        53: 'Thriller',
+        10752: 'War',
+        37: 'Western'
+    }
+    for (i=0; i<genreIds.length; i++) {
+        var genreName = $('<span></span>').text(genre[genreIds[i]]+'; ');
+        $('#movie-genre').text('').append(genreName);
     }
 }
 
@@ -210,6 +227,24 @@ function getMovieCast(){
                 castList.append(castName);
             }
             $('#movie-cast').text('').append(castList);
+        })
+}
+function getMovieReview(){
+    var id = localStorage.getItem('movieID');
+    var requestUrl = 'https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&page=1'
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            if (data.total_results===0) {
+                $('#movie-review-author').text('No reviews available yet :(');
+            } else {
+                $('#movie-review-author').text(data.results[0].author_details.username).css('font-weight', 'bold');
+                $('#movie-review-content').text(data.results[0].content.trim());
+                $('#movie-review-date').text(data.results[0].created_at.substring(0, 10));
+            }
         })
 }
 
