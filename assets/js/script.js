@@ -1,25 +1,30 @@
-//CSS Formatting for Richard
+//CSS Formatting
 const collapsibles = document.querySelectorAll(".collapsible");
 collapsibles.forEach((item) =>
-  item.addEventListener("click", function () {
-    this.classList.toggle("collapsible--expanded");
-  })
+    item.addEventListener("click", function () {
+        this.classList.toggle("collapsible--expanded");
+    })
 );
 
+//Obtain the 4 most popular movies from the MovieDB api in the year of 2021
 function getPopularMovie() {
-    var requestUrl='https://api.themoviedb.org/3/discover/movie?primary_release_year=2021&sort_by=vote_average.desc&api_key=67ee7262b46b2cfedff77e6b877aac65';
+    var requestUrl='https://api.themoviedb.org/3/trending/movie/week?api_key=67ee7262b46b2cfedff77e6b877aac65';
     fetch(requestUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-                for (var i=0; i<6; i++) {
-                    if (data.results[i].title.length<20) {
-                        var image = $('<img></img>').attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[i].poster_path).addClass('col-3');
-                        $('#image-container').append(image);
-                        var title = $('<h4></h4>').text(data.results[i].title).addClass('col-3').css('text-align', 'center');
-                        $('#title-container').append(title);
+            var i=0;
+            while (i<4) {
+                if (data.results[i].title.length<50) {
+                    var image = $('<img></img>')
+                        .attr('src', 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[i].poster_path)
+                        .addClass('col-3 popular-movie')
+                        .val(data.results[i].title);;
+                    $('#image-container').append(image);
+                    var title = $('<h4></h4>').text(data.results[i].title).addClass('col-3').css('text-align', 'center');
+                    $('#title-container').append(title);
+                    i++;
                 }
             }
         })
@@ -27,6 +32,7 @@ function getPopularMovie() {
 
 getPopularMovie();
 
+//Save user search to local storage for revisiting purposes
 function saveSearches() {
     var searches = {
         query: $('#search-input').val()
@@ -39,6 +45,7 @@ function saveSearches() {
     localStorage.setItem("searchesArr", JSON.stringify(searchesArr));
 }
 
+//Generate clickable buttons based on search history
 function showSearches() {
     var searches = JSON.parse(localStorage.getItem('searchesArr'));
     if (searches !== null) {
@@ -56,13 +63,14 @@ function showSearches() {
     }
 }
 
+//When the website is ready, search history buttons will show up
 $(document).ready(function() {
     showSearches();
 });
 
+//When user clicks the search button with a valid query, he/she will be redirected to the movie info page
 $('#search-button').on("click", function(event) {
     event.preventDefault();
-    console.log($('#search-input').val().length)
     if ($('#search-input').val().length !== 0) {
         saveSearches();
         window.location = './movieinfo.html';
@@ -71,16 +79,24 @@ $('#search-button').on("click", function(event) {
     }
 });
 
+//When user clicks the history search button, he/she will be redirected to the movie info page as well
 $('#last-search-container').on('click', '.history-button', function(event){
-    console.log(event.target.value);
     localStorage.setItem('searchWord', event.target.value);
     window.location = './movieinfo.html';
-})
+});
 
+//When the user clicks the popular movie poster, he/she will be redirected to the movie info page as well
+$('#image-container').on('click', '.popular-movie', function(event) {
+    localStorage.setItem('searchWord', event.target.value);
+    window.location = './movieinfo.html';
+});
+
+//When the movie info page is ready, it will show the relevant movie information page by accessing local storage stored query
 $(document).ready(function() {
     getMovieInfo(localStorage.getItem('searchWord'));
 })
 
+//This is the primary function that generates the movie information on the page
 function getMovieInfo(name) {
     var requestUrl='https://api.themoviedb.org/3/search/movie?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&query='+name+'&page=1';
     fetch(requestUrl) 
@@ -88,29 +104,32 @@ function getMovieInfo(name) {
             return response.json();
         })
         .then(function (data) {
-            //Rate Movie
+            //get movie rating
             var num = parseInt(data.results[0].vote_average)*0.5;
             console.log(num);
             for(var i=0; i<num; i++) {
                 var id = '#star'+i;
                 $(id).addClass('fas').removeClass('far');
             }
-            
-            console.log(data);
+            //save unique movie id to local storage to avoid pending promises
             localStorage.setItem('movieID', data.results[0].id);
             var releaseDate = data.results[0].release_date;
             var releaseYear = releaseDate.substring(0,4);
             var releaseMonth = releaseDate.substring(5,7);
             var releaseDay = releaseDate.substring(8,10);
+            //fetch movie title from api
             $('#movie-title-text').text(data.results[0].title);
+            //fetch movie poster from api
             $('#movie-poster-image')
                 .attr({
                     'src': 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path,
                     'alt': data.results[0].title
                 });
             getWatchProvider();
+            //fetch the overview of the plot for the movie from api
             $('#movie-summary').text(data.results[0].overview);
             printMovieGenre(data.results[0].genre_ids);
+            //fetch released date from api
             $('#movie-date').text(releaseMonth + "-" + releaseDay + "-" + releaseYear);
             getMovieCast();
             printMovieGenre(data.results[0].genre_ids);
@@ -119,7 +138,7 @@ function getMovieInfo(name) {
         })
 }
 
-
+//get the avialble watch provider for the user to buy and rend the movie. Display based on the priority given by MovieDB api
 function getWatchProvider() {
     var id = localStorage.getItem('movieID');
     var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/watch/providers?api_key=67ee7262b46b2cfedff77e6b877aac65';
@@ -128,7 +147,6 @@ function getWatchProvider() {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
             var rent = data.results.US.rent[0].provider_name;
             var buy = data.results.US.buy[0].provider_name;
             localStorage.setItem('rentFrom', rent);
@@ -157,32 +175,7 @@ function getWatchProvider() {
         })
 }
 
-// function getMovieReview() {
-//     var id = localStorage.getItem('movieID');
-//     var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65';
-//     fetch(requestUrl)
-//         .then(function (response) {
-//             return response.json();
-//         })
-//         .then(function (data) {
-//             console.log(data);
-            
-//             var reviewCount = data.results.length;
-//             var randomNumber = Math.floor(Math.random() * reviewCount);
-
-//             console.log(randomNumber);
-//             console.log(data.results);
-//             console.log(randomNumber);
-//             $("#movie-review-author").text("Author: " + data.results[randomNumber].author);
-//             $("#movie-review-content").text(data.results[randomNumber].content);
-//             var releaseDate = data.results[0].updated_at;
-//             var releaseYear = releaseDate.substring(0,4);
-//             var releaseMonth = releaseDate.substring(5,7);
-//             var releaseDay = releaseDate.substring(8,10);
-//             $("#movie-review-date").text("Submitted: " + releaseMonth + "-" + releaseDay + "-" + releaseYear);
-//         })
-// }
-
+//Use an object to conver movie genre id to words and display on the screen
 function printMovieGenre(genreIds) {
     console.log('genreIds', genreIds);
     const genre = {
@@ -212,6 +205,7 @@ function printMovieGenre(genreIds) {
     }
 }
 
+//fetch the first five of the cast from api
 function getMovieCast(){
     var id = localStorage.getItem('movieID');
     var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/credits?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US';
@@ -229,6 +223,8 @@ function getMovieCast(){
             $('#movie-cast').text('').append(castList);
         })
 }
+
+//fecth the first review of the movie from the api; if there is no reviews, show an error message
 function getMovieReview(){
     var id = localStorage.getItem('movieID');
     var requestUrl = 'https://api.themoviedb.org/3/movie/'+id+'/reviews?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&page=1'
@@ -248,6 +244,7 @@ function getMovieReview(){
         })
 }
 
+//fetch similar moviees for users to click and review
 function getRecommendation() {
     var id = localStorage.getItem('movieID');
     var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/recommendations?api_key=67ee7262b46b2cfedff77e6b877aac65&language=en-US&page=1';
@@ -274,28 +271,27 @@ function getRecommendation() {
         });
 }
 
-
+//Shows the most popular movies among different periods of time from the IMDB api
 var top250URL = "https://imdb-api.com/en/API/Top250Movies/k_4s3kqyy2";
 var mostPopularMoviesURL = "https://imdb-api.com/en/API/MostPopularMovies/k_4s3kqyy2";
 var boxOfficeAllTimeURL = "https://imdb-api.com/en/API/BoxOfficeAllTime/k_4s3kqyy2";
 
-//query selector
+//Declare query selectors
 var top250ListEl = document.querySelector("#top250list");
 var mostPopularListEl = document.querySelector("#mostPopularlist");
 var boxOfficeListEl = document.querySelector("#boxOfficelist");
 
-//event listener
+//Dclare event listeners
 top250ListEl.addEventListener("click",saveSearchWord);
 mostPopularListEl.addEventListener("click",saveSearchWord);
 boxOfficeListEl.addEventListener("click",saveSearchWord);
 
-//fetch
+//Fetch from the IMDB api accordingly
 fetch (top250URL)
     .then (function(response) {
         return response.json();
     })
     .then (function(data) {
-        console.log(data);
         for (var i = 0; i<250; i++) {
             var newListItemEl = document.createElement("li");
             var newListItem = data.items[i].title;
@@ -333,10 +329,8 @@ fetch (boxOfficeAllTimeURL)
         }
     })
 
-//functions
+//Redirect to movie info page if user clicks on the top movies
 function saveSearchWord(event) {
-
     var movieClicked = event.target.textContent;
     localStorage.setItem("searchWord",movieClicked);
-
 }
