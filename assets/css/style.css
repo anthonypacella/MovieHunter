@@ -167,12 +167,10 @@ h1 {
   color: var(--color--primary);
   text-decoration: none;
 }
-<<<<<<< HEAD
 
 .trending--section {
   padding-bottom: 4rem;
 }
-=======
 /*testing*/
 
 .video-container {
@@ -189,4 +187,3 @@ h1 {
   height: 100%;
   border: 0;
 }
->>>>>>> 084426a3e24bc58d173263f1c9a954c321520f03
