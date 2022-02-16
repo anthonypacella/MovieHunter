@@ -167,7 +167,26 @@ h1 {
   color: var(--color--primary);
   text-decoration: none;
 }
+<<<<<<< HEAD
 
 .trending--section {
   padding-bottom: 4rem;
 }
+=======
+/*testing*/
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+>>>>>>> 084426a3e24bc58d173263f1c9a954c321520f03
