@@ -2,14 +2,14 @@
 
 ## User Story
 
-* As an indecisive movie watcher, I want to what the most popular movies are right now.
-* As a, indecisive movie watcher, I want to what the most popular movies of all-time are.
+* As an indecisive movie watcher, I want to see what the most popular movies are right now.
+* As an indecisive movie watcher, I want to see what the most popular movies of all-time are.
 * As a movie watcher ready to watch a specific movie, I want to know what streaming platform a particular movie is available on so that I can watch the movie.
 * As a movie watcher, I want to know general details of a movie when I search for it. 
 
 ## User Interface Features
 
-* The home page includes a search bar that the user can use to search for any movie that they would like to receive additional details on the movie that they search for
+* The home page includes a search bar that the user can use to search for any movie that they would like to receive additional details about.
 * The home page includes the five most recent searches that the user has made under the search bar, so that the user may click them to search for that movie again. 
 * The home page includes three trending movies that the user could look and search for in the search bar if they desire.
 * The home page has three lists: Top 250 Movies of All-Time (according to the Internet Movie Database 'IMDB'), Top 100 Popular Movies (according to the Internet Movie Database 'IMDB'), and the Highest Box Office Earnings (according to the Internet Movie Database 'IMDB').
@@ -39,6 +39,17 @@
 * HTML
 * CSS
 * JavaScript/jQuery
+
+## Mock-Up
+
+![](./images/Mock-Up-1.png)
+![](./images/Mock-Up-2.png)
+![](./images/Mock-Up-3.png)
+![](./images/Mock-Up-4.png)
+![](./images/Mock-Up-5.png)
+![](./images/Mock-Up-6.png)
+![](./images/Mock-Up-7.png)
+
 
 ## Links
 * GitHub Repository: https://github.com/anthonypacella/MovieHunter
