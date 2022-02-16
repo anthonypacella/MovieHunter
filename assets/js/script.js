@@ -125,6 +125,7 @@ function getMovieInfo(name) {
                     'src': 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/'+data.results[0].backdrop_path,
                     'alt': data.results[0].title
                 });
+            getMovieTrailer();
             getWatchProvider();
             //fetch the overview of the plot for the movie from api
             $('#movie-summary').text(data.results[0].overview);
@@ -135,6 +136,22 @@ function getMovieInfo(name) {
             printMovieGenre(data.results[0].genre_ids);
             getMovieReview();
             getRecommendation();
+        })
+}
+//get the movie trailer from youtube; information comes from MovieDB
+function getMovieTrailer(){
+    var id = localStorage.getItem('movieID');
+    var requestUrl='https://api.themoviedb.org/3/movie/'+id+'/videos?api_key=67ee7262b46b2cfedff77e6b877aac65';
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            var i=0;
+            while(i<1&&data.results[i].official) {
+                $('#movie-trailer').attr('src', 'https://www.youtube.com/embed/'+data.results[i].key);
+                i++;
+            }   
         })
 }
 
